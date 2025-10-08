@@ -1,7 +1,7 @@
 PODS:
   - EXConstants (18.0.9):
     - ExpoModulesCore
-  - Expo (54.0.8):
+  - Expo (54.0.12):
     - ExpoModulesCore
     - hermes-engine
     - RCTRequired
@@ -26,22 +26,22 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - ExpoAsset (12.0.8):
+  - ExpoAsset (12.0.9):
     - ExpoModulesCore
-  - ExpoFileSystem (19.0.14):
+  - ExpoFileSystem (19.0.16):
     - ExpoModulesCore
   - ExpoFont (14.0.8):
     - ExpoModulesCore
   - ExpoHaptics (15.0.7):
     - ExpoModulesCore
-  - ExpoHead (6.0.6):
+  - ExpoHead (6.0.10):
     - ExpoModulesCore
     - RNScreens
   - ExpoKeepAwake (15.0.7):
     - ExpoModulesCore
   - ExpoLinking (8.0.8):
     - ExpoModulesCore
-  - ExpoModulesCore (3.0.16):
+  - ExpoModulesCore (3.0.20):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -68,7 +68,7 @@ PODS:
     - ExpoModulesCore
   - ExpoSystemUI (6.0.7):
     - ExpoModulesCore
-  - ExpoWebBrowser (15.0.7):
+  - ExpoWebBrowser (15.0.8):
     - ExpoModulesCore
   - FBLazyVector (0.81.4)
   - hermes-engine (0.81.4):
@@ -1794,7 +1794,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - RNReanimated (4.1.0):
+  - RNReanimated (4.1.2):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1816,10 +1816,10 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-    - RNReanimated/reanimated (= 4.1.0)
+    - RNReanimated/reanimated (= 4.1.2)
     - RNWorklets
     - Yoga
-  - RNReanimated/reanimated (4.1.0):
+  - RNReanimated/reanimated (4.1.2):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1841,10 +1841,10 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-    - RNReanimated/reanimated/apple (= 4.1.0)
+    - RNReanimated/reanimated/apple (= 4.1.2)
     - RNWorklets
     - Yoga
-  - RNReanimated/reanimated/apple (4.1.0):
+  - RNReanimated/reanimated/apple (4.1.2):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2299,18 +2299,18 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   EXConstants: a95804601ee4a6aa7800645f9b070d753b1142b3
-  Expo: 4875e1cc72ae1398e33bcd6632943a4e93926ecd
-  ExpoAsset: 84810d6fed8179f04d4a7a4a6b37028bbd726e26
-  ExpoFileSystem: 4fb06865906e781329eb67166bd64fc4749c3019
+  Expo: 24375439ae3be9e01cdd3ab8e03967d453e66d3e
+  ExpoAsset: 9ba6fbd677fb8e241a3899ac00fa735bc911eadf
+  ExpoFileSystem: f4bf6bac4ede3b6671c22777f01102a02a028412
   ExpoFont: 86ceec09ffed1c99cfee36ceb79ba149074901b5
   ExpoHaptics: 807476b0c39e9d82b7270349d6487928ce32df84
-  ExpoHead: 78f14a8573ae5b882123b272c0af20a80bfa58f6
+  ExpoHead: b1843315be5ef6751b4ecb2404b3effffbb33d96
   ExpoKeepAwake: 1a2e820692e933c94a565ec3fbbe38ac31658ffe
   ExpoLinking: f051f28e50ea9269ff539317c166adec81d9342d
-  ExpoModulesCore: a28d1b4a5a9fbdacc41ca8d0c777a2d73496b022
+  ExpoModulesCore: e646280de9e06297a3668c568ddc6b8564fa2896
   ExpoSplashScreen: cbb839de72110dea1851dd3e85080b7923af2540
   ExpoSystemUI: 6cd74248a2282adf6dec488a75fa532d69dee314
-  ExpoWebBrowser: 533bc2a1b188eec1c10e4926decf658f1687b5e5
+  ExpoWebBrowser: d04a0d6247a0bea4519fbc2ea816610019ad83e0
   FBLazyVector: 9e0cd874afd81d9a4d36679daca991b58b260d42
   hermes-engine: 35c763d57c9832d0eef764316ca1c4d043581394
   RCTDeprecation: 7487d6dda857ccd4cb3dd6ecfccdc3170e85dcbc
@@ -2379,12 +2379,12 @@ SPEC CHECKSUMS:
   ReactCommon: 149b6c05126f2e99f2ed0d3c63539369546f8cae
   ReactNativeDependencies: ed6d1e64802b150399f04f1d5728ec16b437251e
   RNGestureHandler: 2914750df066d89bf9d8f48a10ad5f0051108ac3
-  RNReanimated: 3ab91aa335aa43423ecbf6606b08893718ebcc79
+  RNReanimated: 5c077f02afaef2c4f60fc0f8b45046eab285adf2
   RNScreens: d8d6f1792f6e7ac12b0190d33d8d390efc0c1845
   RNSVG: 31d6639663c249b7d5abc9728dde2041eb2a3c34
   RNWorklets: 28c00d83c8869fe000d9995c8caa2ff02ba30b81
   Yoga: 051f086b5ccf465ff2ed38a2cf5a558ae01aaaa1
 
-PODFILE CHECKSUM: 2abe3d97df8953d7e464c12c4c9a2fa13e5afeb8
+PODFILE CHECKSUM: aeefa4943828ec198004666bc87abf17a7ffd5ed
 
 COCOAPODS: 1.16.2

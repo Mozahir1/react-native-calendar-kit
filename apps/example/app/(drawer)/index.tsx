@@ -32,6 +32,7 @@ import React, {
   useState,
 } from 'react';
 import {
+  Alert,
   Dimensions,
   StyleSheet,
   Text,
@@ -619,7 +620,7 @@ const Calendar = () => {
         highlightDates={highlightDates}
         events={events}
         onPressEvent={(event) => {
-          console.log(event);
+          Alert.alert('onPressEvent', JSON.stringify(event));
         }}
         onLoad={() => {
           console.log('onLoad');
