@@ -1,9 +1,12 @@
 import isEqual from 'lodash.isequal';
 import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Pressable } from 'react-native-gesture-handler';
-import { PressableEvent } from 'react-native-gesture-handler/lib/typescript/components/Pressable/PressableProps';
+import {
+  StyleSheet,
+  View,
+  Pressable,
+  type GestureResponderEvent,
+} from 'react-native';
 import { useDerivedValue } from 'react-native-reanimated';
 import { MILLISECONDS_IN_DAY } from '../constants';
 import { useBody } from '../context/BodyContext';
@@ -17,7 +20,10 @@ interface EventItemProps {
   startUnix: number;
   renderEvent?: (event: PackedEvent, size: SizeAnimation) => React.ReactNode;
   onPressEvent?: (event: OnEventResponse) => void;
-  onLongPressEvent?: (event: PackedEvent, resEvent: PressableEvent) => void;
+  onLongPressEvent?: (
+    event: PackedEvent,
+    resEvent: GestureResponderEvent
+  ) => void;
   isDragging?: boolean;
   visibleDates: Record<string, { diffDays: number; unix: number }>;
   totalResources?: number;
@@ -188,7 +194,7 @@ const EventItem: FC<EventItemProps> = ({
     }
   };
 
-  const _onLongPressEvent = (resEvent: PressableEvent) => {
+  const _onLongPressEvent = (resEvent: GestureResponderEvent) => {
     onLongPressEvent!(eventInput, resEvent);
   };
 

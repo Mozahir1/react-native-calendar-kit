@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { PressableEvent } from 'react-native-gesture-handler/lib/typescript/components/Pressable/PressableProps';
+import { StyleSheet, View, type GestureResponderEvent } from 'react-native';
 import { useActions } from '../context/ActionsProvider';
 import { useBody } from '../context/BodyContext';
 import {
@@ -48,7 +47,7 @@ const Events: FC<{
   }, [enableResourceScroll, eventsByDate, resourcesIds]);
 
   const _triggerDragEvent = useCallback(
-    (event: PackedEvent, resEvent: PressableEvent) => {
+    (event: PackedEvent, resEvent: GestureResponderEvent) => {
       if (!event.start.dateTime || !event.end.dateTime) {
         return;
       }
