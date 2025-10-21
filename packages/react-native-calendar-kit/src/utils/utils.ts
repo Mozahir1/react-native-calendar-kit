@@ -7,6 +7,7 @@ type CalendarRangeOptions = {
   maxDate: DateType;
   firstDay: WeekdayNumbers;
   isSingleDay: boolean;
+  isMonthView?: boolean;
   hideWeekDays?: WeekdayNumbers[];
   timeZone?: string;
 };
@@ -29,7 +30,7 @@ export type DataByMode = {
 export const prepareCalendarRange = (
   props: CalendarRangeOptions
 ): DataByMode => {
-  const { minDate, maxDate, firstDay, isSingleDay, timeZone } = props;
+  const { minDate, maxDate, firstDay, isSingleDay, isMonthView, timeZone } = props;
   const minIsoDate = parseDateTime(minDate, { zone: timeZone }).toISODate();
   const maxIsoDate = parseDateTime(maxDate, { zone: timeZone }).toISODate();
   if (!minIsoDate || !maxIsoDate) {
@@ -66,6 +67,45 @@ export const prepareCalendarRange = (
         index++;
       }
       currentDateTime = currentDateTime.plus({ days: 1 });
+    }
+
+    return {
+      count: visibleDatesArray.length,
+      minDateUnix: originalMinDateUnix,
+      maxDateUnix: originalMaxDateUnix,
+      originalMinDateUnix,
+      originalMaxDateUnix,
+      visibleDates,
+      visibleDatesArray,
+      diffMinDays: 0,
+      diffMaxDays: 0,
+    };
+  }
+
+  // Month View Mode
+  if (isMonthView) {
+    const visibleDates: Record<
+      string,
+      { unix: number; index: number; weekday: WeekdayNumbers }
+    > = {};
+    const visibleDatesArray: number[] = [];
+
+    let currentDateTime = min;
+    let index = 0;
+
+    // Iterate over months, ensuring time zone and DST are accounted for
+    while (currentDateTime.toMillis() <= originalMaxDateUnix) {
+      const currentWeekDay = currentDateTime.weekday as WeekdayNumbers;
+      const dateUnix = currentDateTime.toMillis();
+
+      visibleDates[dateUnix] = {
+        unix: dateUnix,
+        index,
+        weekday: currentWeekDay,
+      };
+      visibleDatesArray.push(dateUnix);
+      index++;
+      currentDateTime = currentDateTime.plus({ months: 1 });
     }
 
     return {

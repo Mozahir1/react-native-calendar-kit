@@ -392,6 +392,7 @@ const Calendar = () => {
   );
 
   const isResourcesMode = params.viewMode === 'resources';
+  const isMonthMode = params.viewMode === 'month';
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
@@ -589,12 +590,13 @@ const Calendar = () => {
         onPressPrevious={onPressPrevious}
         onPressNext={onPressNext}
         isResourcesMode={isResourcesMode}
+        isMonthMode={isMonthMode}
       />
       <CalendarContainer
         ref={calendarRef}
         calendarWidth={calendarWidth}
         numberOfDays={Number(params.numberOfDays)}
-        scrollByDay={Number(params.numberOfDays) < 5}
+        scrollByDay={Number(params.numberOfDays) < 5 && !isMonthMode}
         firstDay={isWorkWeek ? 1 : configs.startOfWeek}
         hideWeekDays={hideWeekDays}
         initialLocales={initialLocales}

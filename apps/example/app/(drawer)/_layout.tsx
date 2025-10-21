@@ -22,6 +22,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       <DrawerItem label="4 Days" onPress={() => _onPressItem('week', 4)} />
       <DrawerItem label="Week" onPress={() => _onPressItem('week', 7)} />
       <DrawerItem label="Work week" onPress={() => _onPressItem('week', 5)} />
+      <DrawerItem label="Month" onPress={() => _onPressItem('month', 30)} />
       <DrawerItem
         label="Resources"
         onPress={() => _onPressItem('resources', 1)}

@@ -13,6 +13,7 @@ import {
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import BodyItem from './components/BodyItem';
 import BodyResourceItem from './components/BodyResourceItem';
+import MonthViewBody from './components/MonthViewBody';
 import CalendarListView from './components/CalendarListView';
 import DragEventPlaceholder from './components/DraggingEvent';
 import DraggingHour from './components/DraggingHour';
@@ -107,7 +108,7 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({
   );
 
   const locale = useLocale();
-  const { onRefresh, onLoad } = useActions();
+  const { onRefresh, onLoad, onPressDayNumber, onPressEvent } = useActions();
   const resources = useResources();
   const scrollProps = useSyncedList({
     id: ScrollType.calendarGrid,
@@ -164,6 +165,19 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({
         return null;
       }
 
+      // Check if we're in month view (numberOfDays === 30)
+      if (numberOfDays === 30) {
+        return (
+          <MonthViewBody
+            pageIndex={pageIndex}
+            dateUnix={dateUnixByIndex}
+            onPressDay={onPressDayNumber}
+            onPressEvent={onPressEvent}
+            renderEvent={renderEvent}
+          />
+        );
+      }
+
       return (
         <BodyItem
           pageIndex={pageIndex}
@@ -173,7 +187,7 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({
         />
       );
     },
-    []
+    [numberOfDays, onPressDayNumber, onPressEvent, renderEvent]
   );
 
   const _onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {

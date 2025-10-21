@@ -9,6 +9,8 @@ export { default as ResourceHeaderItem } from './components/ResourceHeaderItem';
 export { default as MultiDayBarItem } from './components/MultiDayBarItem';
 export { default as SingleDayBarItem } from './components/SingleDayBarItem';
 export { default as DayItem } from './components/DayItem';
+export { default as MonthView } from './components/MonthView';
+export { default as MonthViewBody } from './components/MonthViewBody';
 
 export { useActions, useMethods } from './context/ActionsProvider';
 export { useBody } from './context/BodyContext';

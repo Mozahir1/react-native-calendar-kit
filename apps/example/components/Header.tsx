@@ -13,6 +13,7 @@ interface HeaderProps {
   onPressPrevious?: () => void;
   onPressNext?: () => void;
   isResourcesMode?: boolean;
+  isMonthMode?: boolean;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -21,6 +22,7 @@ const Header: FC<HeaderProps> = ({
   onPressPrevious,
   onPressNext,
   isResourcesMode,
+  isMonthMode,
 }) => {
   const theme = useTheme();
   const { top: safeTop } = useSafeAreaInsets();
@@ -31,10 +33,10 @@ const Header: FC<HeaderProps> = ({
     const formatted = new Date(currentDate).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: isResourcesMode ? 'numeric' : undefined,
+      day: isResourcesMode ? 'numeric' : isMonthMode ? undefined : undefined,
     });
     return formatted;
-  }, [isResourcesMode, currentDate]);
+  }, [isResourcesMode, isMonthMode, currentDate]);
 
   const _onPressMenu = () => {
     navigation.dispatch(DrawerActions.openDrawer());

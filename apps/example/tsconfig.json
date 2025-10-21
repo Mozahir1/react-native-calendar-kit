@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["dom", "dom.iterable", "es6"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es6"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -9,7 +13,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -21,10 +25,24 @@
     "noUnusedParameters": false,
     "checkJs": false,
     "paths": {
-      "@/*": ["./*"],
-      "@howljs/calendar-kit": ["../../packages/react-native-calendar-kit/src"]
+      "@/*": [
+        "./*"
+      ],
+      "@howljs/calendar-kit": [
+        "../../packages/react-native-calendar-kit/src"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
-  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
+  "extends": "expo/tsconfig.base"
 }

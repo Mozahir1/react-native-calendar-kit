@@ -141,11 +141,12 @@ const CalendarContainer: React.ForwardRefRenderFunction<
   // TODO: Implement RTL
   const isRTL = false;
 
-  if (initialNumberOfDays > 7) {
-    throw new Error('The maximum number of days is 7');
+  if (initialNumberOfDays > 7 && initialNumberOfDays !== 30) {
+    throw new Error('The maximum number of days is 7, or use 30 for month view');
   }
 
   const isResourceMode = !!resources;
+  const isMonthView = initialNumberOfDays === 30;
   const scrollByDay =
     isResourceMode ||
     initialNumberOfDays === 1 ||
@@ -186,12 +187,14 @@ const CalendarContainer: React.ForwardRefRenderFunction<
   const daysToShow = 7 - hideWeekDaysCount;
   const numberOfDays = isResourceMode
     ? 1
-    : initialNumberOfDays > daysToShow
-      ? daysToShow
-      : initialNumberOfDays;
+    : isMonthView
+      ? 30
+      : initialNumberOfDays > daysToShow
+        ? daysToShow
+        : initialNumberOfDays;
 
   const isSingleDay = numberOfDays === 1;
-  const columns = isSingleDay ? 1 : daysToShow;
+  const columns = isSingleDay ? 1 : isMonthView ? 7 : daysToShow;
 
   const defaultLayout = useLayout();
   const calendarLayout = useMemo(() => {
@@ -217,10 +220,11 @@ const CalendarContainer: React.ForwardRefRenderFunction<
         maxDate,
         firstDay,
         isSingleDay,
+        isMonthView,
         hideWeekDays,
         timeZone,
       }),
-    [minDate, maxDate, firstDay, isSingleDay, hideWeekDays, timeZone]
+    [minDate, maxDate, firstDay, isSingleDay, isMonthView, hideWeekDays, timeZone]
   );
 
   const slots = useMemo(
