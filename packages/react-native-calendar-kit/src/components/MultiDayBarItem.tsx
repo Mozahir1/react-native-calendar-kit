@@ -93,7 +93,9 @@ const MultiDayBarItem: React.FC<MultiDayBarItemProps> = ({
     if (dayUnix) {
       const dateObj = forceUpdateZone(parseDateTime(dayUnix), timeZone);
       const dateString = dateTimeToISOString(dateObj);
-      onPressBackground?.({ date: dateString }, event);
+      if (dateString) {
+        onPressBackground?.({ date: dateString }, event);
+      }
     }
   };
 
@@ -104,7 +106,9 @@ const MultiDayBarItem: React.FC<MultiDayBarItemProps> = ({
     if (dayUnix) {
       const dateObj = forceUpdateZone(parseDateTime(dayUnix), timeZone);
       const dateString = dateTimeToISOString(dateObj);
-      onLongPressBackground?.({ date: dateString }, event);
+      if (dateString) {
+        onLongPressBackground?.({ date: dateString }, event);
+      }
     }
   };
 

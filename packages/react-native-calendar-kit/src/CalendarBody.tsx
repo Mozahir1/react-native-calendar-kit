@@ -131,7 +131,10 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({
   const _onRefresh = useCallback(() => {
     if (onRefresh) {
       const date = parseDateTime(visibleDateUnix.current);
-      onRefresh(dateTimeToISOString(date));
+      const dateString = dateTimeToISOString(date);
+      if (dateString) {
+        onRefresh(dateString);
+      }
     }
   }, [onRefresh, visibleDateUnix]);
 

@@ -32,6 +32,9 @@ export const prepareCalendarRange = (
   const { minDate, maxDate, firstDay, isSingleDay, timeZone } = props;
   const minIsoDate = parseDateTime(minDate, { zone: timeZone }).toISODate();
   const maxIsoDate = parseDateTime(maxDate, { zone: timeZone }).toISODate();
+  if (!minIsoDate || !maxIsoDate) {
+    throw new Error('Invalid date range');
+  }
   const min = parseDateTime(minIsoDate);
   const max = parseDateTime(maxIsoDate);
   const originalMinDateUnix = min.toMillis();
@@ -50,7 +53,7 @@ export const prepareCalendarRange = (
 
     // Iterate over days, ensuring time zone and DST are accounted for
     while (currentDateTime.toMillis() <= originalMaxDateUnix) {
-      const currentWeekDay = currentDateTime.weekday;
+      const currentWeekDay = currentDateTime.weekday as WeekdayNumbers;
       const dateUnix = currentDateTime.toMillis();
 
       if (!props.hideWeekDays?.includes(currentWeekDay)) {
@@ -99,7 +102,7 @@ export const prepareCalendarRange = (
   let diffMaxDays = 0;
 
   while (currentDateTime.toMillis() < adjustedMax.toMillis()) {
-    const currentWeekDay = currentDateTime.weekday;
+    const currentWeekDay = currentDateTime.weekday as WeekdayNumbers;
     const dateUnix = currentDateTime.toMillis();
 
     if (!props.hideWeekDays?.includes(currentWeekDay)) {
@@ -204,6 +207,9 @@ export const prepareMonthData = (props: PrepareMonthDataOptions): MonthData => {
   const maxDateStr = parseDateTime(props.maxDate, {
     zone: props.timeZone,
   }).toISODate();
+  if (!minDateStr || !maxDateStr) {
+    throw new Error('Invalid date range');
+  }
   const minDate = parseDateTime(minDateStr);
   const maxDate = parseDateTime(maxDateStr);
   const minStartOfMonth = minDate.startOf('month');

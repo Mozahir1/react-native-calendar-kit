@@ -52,8 +52,12 @@ const ResourceBoard = ({ resources }: ResourceBoardProps) => {
     const minute = minutes % 60;
     const baseDateTime = parseDateTime(dayUnix).set({ hour, minute });
     const dateObj = forceUpdateZone(baseDateTime, timeZone);
+    const dateTimeString = dateTimeToISOString(dateObj);
+    if (!dateTimeString) {
+      return;
+    }
     const newProps: { dateTime: string; resourceId?: string } = {
-      dateTime: dateTimeToISOString(dateObj),
+      dateTime: dateTimeString,
     };
     if (resources) {
       const colWidth = columnWidth / resourcePerPage;
@@ -71,6 +75,9 @@ const ResourceBoard = ({ resources }: ResourceBoardProps) => {
     const baseDateTime = parseDateTime(dayUnix).set({ hour, minute });
     const dateObj = forceUpdateZone(baseDateTime, timeZone);
     const dateString = dateTimeToISOString(dateObj);
+    if (!dateString) {
+      return;
+    }
     const newProps: { dateTime: string; resourceId?: string } = {
       dateTime: dateString,
     };

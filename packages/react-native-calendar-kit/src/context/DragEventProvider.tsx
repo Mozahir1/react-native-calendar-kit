@@ -394,9 +394,11 @@ const DragEventProvider: FC<
       const eventEnd = parseDateTime(selectedEvent.end.dateTime, {
         zone: selectedEvent.end.timeZone,
       }).setZone(timeZone);
-      dragSelectedStartUnix.value = parseDateTime(
-        eventStart.toISODate()
-      ).toMillis();
+      const eventStartIsoDate = eventStart.toISODate();
+      if (!eventStartIsoDate) {
+        throw new Error('Invalid event start date');
+      }
+      dragSelectedStartUnix.value = parseDateTime(eventStartIsoDate).toMillis();
       dragSelectedStartMinutes.value = eventStart.hour * 60 + eventStart.minute;
       dragSelectedDuration.value = eventEnd.diff(eventStart, 'minutes').minutes;
     } else {
@@ -937,7 +939,11 @@ const DragEventProvider: FC<
       }
       dragX.value = newDragX;
       const start = parseDateTime(props.dateTime, { zone: timeZone });
-      const startUnix = parseDateTime(start.toISODate()).toMillis();
+      const startIsoDate = start.toISODate();
+      if (!startIsoDate) {
+        throw new Error('Invalid start date');
+      }
+      const startUnix = parseDateTime(startIsoDate).toMillis();
       const startMinutes = start.hour * 60 + start.minute;
       const roundedMinutes = Math.floor(startMinutes / dragStep) * dragStep;
       const roundedStartUnix =
@@ -945,6 +951,9 @@ const DragEventProvider: FC<
       const startDate = parseDateTime(roundedStartUnix);
       const startISO = startDate.toISO();
       const endISO = startDate.plus({ minutes: defaultDuration }).toISO();
+      if (!startISO || !endISO) {
+        throw new Error('Invalid ISO date');
+      }
       setDraggingEvent({
         start: { dateTime: startISO },
         end: { dateTime: endISO },

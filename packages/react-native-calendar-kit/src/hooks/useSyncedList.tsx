@@ -82,7 +82,9 @@ const useSyncedList = ({ id }: { id: ScrollType }) => {
 
         if (visibleDateUnix.current !== currentDate) {
           const dateIsoStr = dateTimeToISOString(parseDateTime(currentDate));
-          onChange?.(dateIsoStr);
+          if (dateIsoStr) {
+            onChange?.(dateIsoStr);
+          }
           visibleDateUnix.current = currentDate;
           runOnUI(() => {
             visibleDateUnixAnim.value = currentDate;
@@ -102,7 +104,9 @@ const useSyncedList = ({ id }: { id: ScrollType }) => {
           ) {
             const dateIsoStr = dateTimeToISOString(parseDateTime(currentDate));
             triggerDateChanged.current = undefined;
-            onDateChanged?.(dateIsoStr);
+            if (dateIsoStr) {
+              onDateChanged?.(dateIsoStr);
+            }
             notifyDateChanged(currentDate);
           }
           isPendingDateChanged.current = false;

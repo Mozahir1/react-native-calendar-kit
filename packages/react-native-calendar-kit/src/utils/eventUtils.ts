@@ -193,7 +193,7 @@ const calculateVisibleDuration = (
 
   while (currentUnix <= endUnix) {
     const dateTime = parseDateTime(currentUnix, { zone: timeZone });
-    const weekday = dateTime.weekday;
+    const weekday = dateTime.weekday as WeekdayNumbers;
     if (!hideWeekDays.includes(weekday)) {
       duration++;
     }
@@ -225,11 +225,16 @@ export const divideAllDayEvents = (
   eventStart = forceUpdateZone(eventStart);
   eventEnd = forceUpdateZone(eventEnd);
 
+  const eventStartIsoDate = eventStart.toISODate();
+  const eventEndIsoDate = eventEnd.toISODate();
+  if (!eventStartIsoDate || !eventEndIsoDate) {
+    throw new Error('Invalid event dates');
+  }
   const weekStartUnix = startOfWeek(
-    eventStart.toISODate(),
+    eventStartIsoDate,
     firstDay
   ).toMillis();
-  const weekEndUnix = startOfWeek(eventEnd.toISODate(), firstDay).toMillis();
+  const weekEndUnix = startOfWeek(eventEndIsoDate, firstDay).toMillis();
 
   const diffWeeks =
     Math.floor((weekEndUnix - weekStartUnix) / (7 * MILLISECONDS_IN_DAY)) + 1;
@@ -348,19 +353,19 @@ export function processEventOccurrences(
       const recurringEvent: EventItemInternal = {
         ...rest,
         start: event.start.dateTime
-          ? { dateTime: eventStart.toISO(), timeZone: eventStart.zoneName }
-          : { date: eventStart.toISODate() },
+          ? { dateTime: eventStart.toISO() || '', timeZone: eventStart.zoneName || undefined }
+          : { date: eventStart.toISODate() || '' },
         end: event.end.dateTime
           ? {
-              dateTime: eventEnd.toISO(),
-              timeZone: eventEnd.zoneName,
+              dateTime: eventEnd.toISO() || '',
+              timeZone: eventEnd.zoneName || undefined,
             }
-          : { date: eventEnd.toISODate() },
+          : { date: eventEnd.toISODate() || '' },
         id: instanceId,
         localId: instanceId,
         originalStartTime: event.start.dateTime
-          ? { dateTime: eventStart.toISO(), timeZone: eventStart.zoneName }
-          : { date: eventStart.toISODate() },
+          ? { dateTime: eventStart.toISO() || '', timeZone: eventStart.zoneName || undefined }
+          : { date: eventStart.toISODate() || '' },
         isFirstOccurrence:
           firstOccurrence?.toMillis() === eventStart.toMillis(),
         _internal: {
@@ -371,7 +376,7 @@ export function processEventOccurrences(
         originalRecurringEvent: {
           ...rest,
           recurrence: originalRrule,
-          excludeDates: [...(excludeDates || []), eventStart.toUTC().toISO()],
+          excludeDates: [...(excludeDates || []), eventStart.toUTC().toISO() || ''],
         },
       };
       return divideFunction(recurringEvent, timeZone);
@@ -452,7 +457,7 @@ export function getVisibleDays(
 
   for (let i = 0; i < 7; i++) {
     const dateTime = parseDateTime(currentDayUnix, { zone: timeZone });
-    const weekday = dateTime.weekday;
+    const weekday = dateTime.weekday as WeekdayNumbers;
     if (!hideWeekDays.includes(weekday)) {
       visibleDays.push(dateTime.toMillis());
     }

@@ -88,7 +88,9 @@ const DayItem: React.FC<PropsWithChildren<DayItemProps>> = ({
 
   const _onDayPress = () => {
     const dateStr = dateTimeToISOString(date);
-    onPressDayNumber?.(dateStr);
+    if (dateStr) {
+      onPressDayNumber?.(dateStr);
+    }
   };
 
   return (

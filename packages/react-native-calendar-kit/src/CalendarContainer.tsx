@@ -250,6 +250,9 @@ const CalendarContainer: React.ForwardRefRenderFunction<
     const zonedInitialDate = parseDateTime(initialDate, {
       zone: timeZone,
     }).toISODate();
+    if (!zonedInitialDate) {
+      throw new Error('Invalid initial date');
+    }
     let date;
     if (scrollByDay) {
       date = parseDateTime(zonedInitialDate);
@@ -315,6 +318,9 @@ const CalendarContainer: React.ForwardRefRenderFunction<
   const goToDate = useLatestCallback((props?: GoToDateOptions) => {
     const date = parseDateTime(props?.date, { zone: timeZone });
     const isoDate = date.toISODate();
+    if (!isoDate) {
+      throw new Error('Invalid date');
+    }
     let targetDateUnix = parseDateTime(isoDate).toMillis();
     if (!scrollByDay) {
       targetDateUnix = startOfWeek(isoDate, firstDay).toMillis();
@@ -338,8 +344,10 @@ const CalendarContainer: React.ForwardRefRenderFunction<
         visibleDateRef.current?.updateVisibleDate(nearestUnix);
         const dateObj = forceUpdateZone(nearestUnix, timeZone);
         const newDate = dateTimeToISOString(dateObj);
-        onDateChanged?.(newDate);
-        onChange?.(newDate);
+        if (newDate) {
+          onDateChanged?.(newDate);
+          onChange?.(newDate);
+        }
       } else {
         const isScrollable = calendarListRef.current?.isScrollable(
           offset,
@@ -414,8 +422,10 @@ const CalendarContainer: React.ForwardRefRenderFunction<
         visibleDateRef.current?.updateVisibleDate(nextDateUnix);
         const dateObj = forceUpdateZone(nextDateUnix, timeZone);
         const newDate = dateTimeToISOString(dateObj);
-        onDateChanged?.(newDate);
-        onChange?.(newDate);
+        if (newDate) {
+          onDateChanged?.(newDate);
+          onChange?.(newDate);
+        }
         return;
       }
 
@@ -472,8 +482,10 @@ const CalendarContainer: React.ForwardRefRenderFunction<
         visibleDateRef.current?.updateVisibleDate(nextDateUnix);
         const dateObj = forceUpdateZone(nextDateUnix, timeZone);
         const newDate = dateTimeToISOString(dateObj);
-        onDateChanged?.(newDate);
-        onChange?.(newDate);
+        if (newDate) {
+          onDateChanged?.(newDate);
+          onChange?.(newDate);
+        }
         return;
       }
 
@@ -515,6 +527,9 @@ const CalendarContainer: React.ForwardRefRenderFunction<
   const setVisibleDate = useLatestCallback((initDate: DateType) => {
     const dateObj = parseDateTime(initDate, { zone: timeZone });
     const isoDate = dateObj.toISODate();
+    if (!isoDate) {
+      throw new Error('Invalid date');
+    }
     const targetDateUnix = parseDateTime(isoDate).toMillis();
     const visibleDates = calendarData.visibleDatesArray;
     const nearestUnix = findNearestNumber(visibleDates, targetDateUnix);
@@ -552,7 +567,7 @@ const CalendarContainer: React.ForwardRefRenderFunction<
         return null;
       }
       const dateObj = forceUpdateZone(date, timeZone);
-      return dateTimeToISOString(dateObj);
+      return dateTimeToISOString(dateObj) || null;
     }
   );
 
@@ -564,6 +579,9 @@ const CalendarContainer: React.ForwardRefRenderFunction<
       }
       const columnIndex = Math.floor(position.x / columnWidth);
       const dateString = dateTimeToISOString(date);
+      if (!dateString) {
+        return null;
+      }
       const eventsByDate = eventsRef.current?.getEventsByDate(dateString) ?? [];
       for (let i = 0; i < eventsByDate.length; i++) {
         const event = eventsByDate[i];
@@ -599,7 +617,7 @@ const CalendarContainer: React.ForwardRefRenderFunction<
     const currentDate = forceUpdateZone(visibleDateUnix.current, timeZone);
     const startMinutes = offsetY.value / minuteHeight.value - start;
     currentDate.plus({ minutes: startMinutes });
-    return dateTimeToISOString(currentDate);
+    return dateTimeToISOString(currentDate) || '';
   });
 
   const getCurrentOffsetY = useLatestCallback(() => {
