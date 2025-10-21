@@ -86,8 +86,10 @@ const MonthDay: React.FC<MonthDayProps> = ({
     const baseStyle: ViewStyle = {
       backgroundColor: colors.background,
       borderColor: colors.border,
-      borderWidth: 1,
-      minHeight: 100,
+      borderRightWidth: 1,
+      borderBottomWidth: 1,
+      flex: 1,
+      minHeight: 80,
       padding: 4,
     };
 
@@ -248,35 +250,7 @@ const MonthView: React.FC<MonthViewProps> = ({
     return days;
   }, [firstDay, weekDayShort]);
 
-  const renderWeekDay = useCallback(
-    ({ item }: { item: string }) => (
-      <View style={styles.weekDayHeader}>
-        <Text style={styles.weekDayText}>{item}</Text>
-      </View>
-    ),
-    []
-  );
 
-  const renderWeek = useCallback(
-    ({ item: weekDays, index: weekIndex }: { item: any[]; index: number }) => (
-      <View style={styles.weekRow}>
-        {weekDays.map((day, dayIndex) => (
-          <MonthDay
-            key={`${weekIndex}-${dayIndex}`}
-            dateUnix={day.dateUnix}
-            isCurrentMonth={day.isCurrentMonth}
-            isToday={day.isToday}
-            events={day.events}
-            onPressDay={onPressDay}
-            onPressEvent={onPressEvent}
-            renderEvent={renderEvent}
-            renderDayItem={renderDayItem}
-          />
-        ))}
-      </View>
-    ),
-    [onPressDay, onPressEvent, renderEvent, renderDayItem]
-  );
 
   const weeks = useMemo(() => {
     const weekRows = [];
@@ -296,13 +270,25 @@ const MonthView: React.FC<MonthViewProps> = ({
           </View>
         ))}
       </View>
-      <FlatList
-        data={weeks}
-        renderItem={renderWeek}
-        keyExtractor={(_, index) => index.toString()}
-        scrollEnabled={false}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={styles.monthGrid}>
+        {weeks.map((weekDays, weekIndex) => (
+          <View key={weekIndex} style={styles.weekRow}>
+            {weekDays.map((day, dayIndex) => (
+              <MonthDay
+                key={`${weekIndex}-${dayIndex}`}
+                dateUnix={day.dateUnix}
+                isCurrentMonth={day.isCurrentMonth}
+                isToday={day.isToday}
+                events={day.events}
+                onPressDay={onPressDay}
+                onPressEvent={onPressEvent}
+                renderEvent={renderEvent}
+                renderDayItem={renderDayItem}
+              />
+            ))}
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
@@ -310,11 +296,13 @@ const MonthView: React.FC<MonthViewProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   weekDayHeaders: {
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
+    backgroundColor: '#f8f9fa',
   },
   weekDayHeader: {
     flex: 1,
@@ -328,9 +316,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#666',
   },
+  monthGrid: {
+    flex: 1,
+  },
   weekRow: {
     flexDirection: 'row',
     flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
   },
   eventsContainer: {
     flex: 1,
