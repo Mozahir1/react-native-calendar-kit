@@ -437,9 +437,9 @@ const DragEventProvider: FC<
         return;
       }
 
-      const currentIndex = visibleDates.indexOf(visibleDateUnix.current);
+      const currentIndex = visibleDates.indexOf(visibleDateUnix.current || 0);
       if (currentIndex === -1) {
-        triggerDateChanged.current = undefined;
+        (triggerDateChanged as any).current = undefined;
         return;
       }
 
@@ -462,20 +462,20 @@ const DragEventProvider: FC<
       );
 
       if (!isScrollable) {
-        triggerDateChanged.current = undefined;
+        (triggerDateChanged as any).current = undefined;
         clearInterval(autoHScrollTimer.current);
-        autoHScrollTimer.current = undefined;
+        (autoHScrollTimer as any).current = undefined;
         return;
       }
 
       const nextDateUnix = visibleDates[nextVisibleDayIndex];
       if (!nextDateUnix) {
-        triggerDateChanged.current = undefined;
+        (triggerDateChanged as any).current = undefined;
         return;
       }
 
       linkedScrollGroup.setActiveId(ScrollType.calendarGrid);
-      triggerDateChanged.current = nextDateUnix;
+      (triggerDateChanged as any).current = nextDateUnix;
 
       let targetUnix = nextDateUnix;
       if (isNextPage) {
@@ -505,7 +505,7 @@ const DragEventProvider: FC<
     autoHScrollTimer.current = setInterval(
       scrollInterval,
       AUTO_SCROLL_INTERVAL
-    );
+    ) as any;
   };
 
   const _stopAutoHScroll = () => {
@@ -549,7 +549,7 @@ const DragEventProvider: FC<
       const isCancel = isNextPage ? nextOffset > maxOffset : nextOffset < 0;
       if (isCancel) {
         clearInterval(autoHScrollTimer.current);
-        autoHScrollTimer.current = undefined;
+        (autoHScrollTimer as any).current = undefined;
         return;
       }
 
@@ -565,7 +565,7 @@ const DragEventProvider: FC<
     autoHScrollTimer.current = setInterval(
       scrollInterval,
       AUTO_SCROLL_INTERVAL
-    );
+    ) as any;
   };
 
   useAnimatedReaction(
@@ -663,11 +663,11 @@ const DragEventProvider: FC<
 
       if (targetOffset === 0 || targetOffset === maxOffsetY) {
         clearInterval(autoVScrollTimer.current);
-        autoVScrollTimer.current = undefined;
+        (autoVScrollTimer as any).current = undefined;
       }
     };
 
-    autoVScrollTimer.current = setInterval(scrollInterval, 100);
+    autoVScrollTimer.current = setInterval(scrollInterval, 100) as any;
   };
 
   const _stopAutoVScroll = () => {

@@ -103,7 +103,7 @@ const ResourceListView = forwardRef<Animated.ScrollView, ResourceListViewProps>(
       }
       scrollTimeoutRef.current = setTimeout(() => {
         setScrollOffset(offset);
-      }, 16);
+      }, 16) as any;
     }, []);
 
     useAnimatedReaction(

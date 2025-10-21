@@ -30,12 +30,12 @@ const VisibleDateProvider: ForwardRefRenderFunction<
 > = ({ initialStart, children }, ref) => {
   const [visibleDateUnix, setVisibleDateUnix] = useState(initialStart.current);
   const [debouncedDateUnix, setDebouncedDateUnix] = React.useState(
-    initialStart.current
+    initialStart.current || 0
   );
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      setDebouncedDateUnix(visibleDateUnix);
+      setDebouncedDateUnix(visibleDateUnix || 0);
     }, 150);
     return () => clearTimeout(timeoutId);
   }, [visibleDateUnix]);

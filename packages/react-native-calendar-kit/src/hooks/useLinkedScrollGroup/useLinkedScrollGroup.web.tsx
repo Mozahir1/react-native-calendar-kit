@@ -210,7 +210,7 @@ const createLinkedScrollController = ({
   scrollListeners,
 }: ControllerGroup) => {
   const onTouchStart = (_event: GestureResponderEvent) => {
-    scrollListeners.current.forEach((listener, key) => {
+    scrollListeners.current?.forEach((listener, key) => {
       if (key === 'onTouchStart') {
         listener(id, { x: 0, y: 0 });
       }

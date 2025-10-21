@@ -34,7 +34,7 @@ const LayoutProvider: React.FC<PropsWithChildren<object>> = ({ children }) => {
 
     timerRef.current = setTimeout(() => {
       setLayout({ width, height });
-    }, DEBOUNCE_TIME);
+    }, DEBOUNCE_TIME) as any;
   }, []);
 
   const value = useMemo(

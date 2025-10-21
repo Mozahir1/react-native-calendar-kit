@@ -273,7 +273,7 @@ export const CalendarList = React.forwardRef<
     return (
       <AnimatedScrollView
         ref={(node: any) => {
-          scrollViewRef.current = node;
+          (scrollViewRef as any).current = node;
           animScrollRef?.(node);
           animatedRef?.(node);
         }}

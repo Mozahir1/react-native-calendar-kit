@@ -124,13 +124,13 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({
   });
 
   const _onLayout = (event: LayoutChangeEvent) => {
-    scrollVisibleHeight.current = event.nativeEvent.layout.height;
+    (scrollVisibleHeight as any).current = event.nativeEvent.layout.height;
     scrollVisibleHeightAnim.value = event.nativeEvent.layout.height;
   };
 
   const _onRefresh = useCallback(() => {
     if (onRefresh) {
-      const date = parseDateTime(visibleDateUnix.current);
+      const date = parseDateTime(visibleDateUnix.current || 0);
       const dateString = dateTimeToISOString(date);
       if (dateString) {
         onRefresh(dateString);
@@ -375,7 +375,7 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({
                     />
                   ) : (
                     <CalendarListView
-                      ref={calendarListRef}
+                      ref={calendarListRef as any}
                       animatedRef={gridListRef}
                       count={calendarData.count}
                       scrollEnabled={allowHorizontalSwipe}

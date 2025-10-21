@@ -75,7 +75,7 @@ const NowIndicatorProvider = ({ children }: NowIndicatorProviderProps) => {
     });
     currentTime.value = withTiming(current.time);
     const nextSeconds = 60 - DateTime.now().second;
-    timerRef.current = setTimeout(updateTime, nextSeconds * 1000);
+    timerRef.current = setTimeout(updateTime, nextSeconds * 1000) as any;
   }, [currentTime, stopTimer, timeZone]);
 
   const handleAppStateChange = useCallback(
