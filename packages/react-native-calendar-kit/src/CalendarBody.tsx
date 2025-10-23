@@ -364,7 +364,7 @@ const CalendarBody: React.FC<CalendarBodyProps> = ({
                   styles.absolute,
                   { top: -EXTRA_HEIGHT, width: calendarLayout.width },
                 ]}>
-                {(numberOfDays > 1 || !!resources) && <TimeColumn />}
+                {(numberOfDays > 1 || !!resources) && numberOfDays !== 30 && <TimeColumn />}
                 <View
                   style={[
                     styles.absolute,

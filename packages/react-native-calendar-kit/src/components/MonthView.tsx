@@ -140,13 +140,10 @@ const MonthDay: React.FC<MonthDayProps> = ({
   ]);
 
   const textStyles = useMemo(() => {
-    const screenWidth = Dimensions.get('window').width;
-    const baseFontSize = Math.max(12, screenWidth / 30); // Responsive font size
-    
     if (isToday) {
       return {
         color: colors.onPrimary || '#FFFFFF',
-        fontSize: baseFontSize + 2,
+        fontSize: 16,
         fontWeight: '600',
         ...todayNumber,
       };
@@ -156,14 +153,14 @@ const MonthDay: React.FC<MonthDayProps> = ({
       return {
         color: colors.text || '#9CA3AF',
         opacity: 0.5,
-        fontSize: baseFontSize,
+        fontSize: 14,
         fontWeight: '400',
       };
     }
 
     return {
       color: colors.text || '#374151',
-      fontSize: baseFontSize,
+      fontSize: 14,
       fontWeight: '500',
       ...dayNumber,
     };
@@ -180,37 +177,31 @@ const MonthDay: React.FC<MonthDayProps> = ({
   return (
     <TouchableOpacity style={dayStyles} onPress={handlePressDay}>
       <Text style={textStyles}>{date.day}</Text>
-      <View style={styles.eventsContainer}>
-        {events.slice(0, 2).map((event, index) => (
-          <TouchableOpacity
-            key={`${event.id}-${index}`}
-            style={[
-              styles.eventItem, 
-              { 
-                backgroundColor: event.color || colors.primary || '#3B82F6',
-                marginTop: index === 0 ? 4 : 2,
-              }
-            ]}
-            onPress={() => handlePressEvent(event)}
-          >
-            {renderEvent ? (
-              renderEvent(event)
-            ) : (
-              <Text style={[styles.eventText, { fontSize: Math.max(8, Dimensions.get('window').width / 50) }]} numberOfLines={1}>
+      {events.length > 0 && (
+        <View style={styles.eventsContainer}>
+          {events.slice(0, 1).map((event, index) => (
+            <TouchableOpacity
+              key={`${event.id}-${index}`}
+              style={[
+                styles.eventItem, 
+                { 
+                  backgroundColor: event.color || colors.primary || '#3B82F6',
+                }
+              ]}
+              onPress={() => handlePressEvent(event)}
+            >
+              <Text style={styles.eventText} numberOfLines={1}>
                 {event.title}
               </Text>
-            )}
-          </TouchableOpacity>
-        ))}
-        {events.length > 2 && (
-          <Text style={[styles.moreEventsText, { 
-            color: colors.text || '#6B7280',
-            fontSize: Math.max(8, Dimensions.get('window').width / 50)
-          }]}>
-            +{events.length - 2} more
-          </Text>
-        )}
-      </View>
+            </TouchableOpacity>
+          ))}
+          {events.length > 1 && (
+            <Text style={styles.moreEventsText}>
+              +{events.length - 1}
+            </Text>
+          )}
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
@@ -340,7 +331,7 @@ const styles = StyleSheet.create({
     borderRightColor: '#E5E7EB',
   },
   weekDayText: {
-    fontSize: Math.max(11, Dimensions.get('window').width / 35),
+    fontSize: 12,
     fontWeight: '600',
     color: '#6B7280',
     textTransform: 'uppercase',
@@ -355,35 +346,25 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E5E7EB',
   },
   eventsContainer: {
-    marginTop: 6,
+    marginTop: 4,
     paddingHorizontal: 2,
-    flex: 1,
   },
   eventItem: {
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 4,
-    marginBottom: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    elevation: 1,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    borderRadius: 3,
+    marginBottom: 1,
   },
   eventText: {
-    fontSize: 9,
+    fontSize: 8,
     color: '#FFFFFF',
     fontWeight: '500',
-    lineHeight: 11,
   },
   moreEventsText: {
-    fontSize: 9,
-    fontStyle: 'italic',
-    marginTop: 2,
+    fontSize: 8,
+    color: '#6B7280',
     fontWeight: '500',
+    marginTop: 1,
   },
 });
 
