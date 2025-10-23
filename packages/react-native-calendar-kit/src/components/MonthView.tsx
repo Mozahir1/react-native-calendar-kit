@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import {
+  Dimensions,
   FlatList,
   StyleSheet,
   TouchableOpacity,
@@ -83,20 +84,27 @@ const MonthDay: React.FC<MonthDayProps> = ({
   );
 
   const dayStyles = useMemo(() => {
+    const screenWidth = Dimensions.get('window').width;
+    const cellSize = (screenWidth - 32) / 7; // Calculate exact cell size for 7 columns
+    
     const baseStyle: ViewStyle = {
       backgroundColor: colors.background,
-      borderColor: colors.border,
-      borderRightWidth: 1,
-      borderBottomWidth: 1,
-      flex: 1,
-      minHeight: 80,
+      borderColor: colors.border || '#E5E7EB',
+      borderRightWidth: 0.5,
+      borderBottomWidth: 0.5,
+      width: cellSize,
+      height: cellSize,
       padding: 4,
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
     };
 
     if (isToday) {
       return {
         ...baseStyle,
         backgroundColor: colors.primary,
+        borderRadius: 8,
+        margin: 2,
         ...todayNumberContainer,
       };
     }
@@ -104,15 +112,17 @@ const MonthDay: React.FC<MonthDayProps> = ({
     if (!isCurrentMonth) {
       return {
         ...baseStyle,
-        backgroundColor: colors.surface,
-        opacity: 0.5,
+        backgroundColor: colors.surface || '#F9FAFB',
+        opacity: 0.4,
       };
     }
 
     if (highlightDates?.length) {
       return {
         ...baseStyle,
-        backgroundColor: colors.surface,
+        backgroundColor: colors.surface || '#F3F4F6',
+        borderRadius: 4,
+        margin: 1,
       };
     }
 
@@ -130,22 +140,31 @@ const MonthDay: React.FC<MonthDayProps> = ({
   ]);
 
   const textStyles = useMemo(() => {
+    const screenWidth = Dimensions.get('window').width;
+    const baseFontSize = Math.max(12, screenWidth / 30); // Responsive font size
+    
     if (isToday) {
       return {
-        color: colors.onPrimary,
+        color: colors.onPrimary || '#FFFFFF',
+        fontSize: baseFontSize + 2,
+        fontWeight: '600',
         ...todayNumber,
       };
     }
 
     if (!isCurrentMonth) {
       return {
-        color: colors.text,
+        color: colors.text || '#9CA3AF',
         opacity: 0.5,
+        fontSize: baseFontSize,
+        fontWeight: '400',
       };
     }
 
     return {
-      color: colors.text,
+      color: colors.text || '#374151',
+      fontSize: baseFontSize,
+      fontWeight: '500',
       ...dayNumber,
     };
   }, [colors, isToday, isCurrentMonth, dayNumber, todayNumber]);
@@ -162,24 +181,33 @@ const MonthDay: React.FC<MonthDayProps> = ({
     <TouchableOpacity style={dayStyles} onPress={handlePressDay}>
       <Text style={textStyles}>{date.day}</Text>
       <View style={styles.eventsContainer}>
-        {events.slice(0, 3).map((event, index) => (
+        {events.slice(0, 2).map((event, index) => (
           <TouchableOpacity
             key={`${event.id}-${index}`}
-            style={[styles.eventItem, { backgroundColor: event.color || colors.primary }]}
+            style={[
+              styles.eventItem, 
+              { 
+                backgroundColor: event.color || colors.primary || '#3B82F6',
+                marginTop: index === 0 ? 4 : 2,
+              }
+            ]}
             onPress={() => handlePressEvent(event)}
           >
             {renderEvent ? (
               renderEvent(event)
             ) : (
-              <Text style={styles.eventText} numberOfLines={1}>
+              <Text style={[styles.eventText, { fontSize: Math.max(8, Dimensions.get('window').width / 50) }]} numberOfLines={1}>
                 {event.title}
               </Text>
             )}
           </TouchableOpacity>
         ))}
-        {events.length > 3 && (
-          <Text style={[styles.moreEventsText, { color: colors.text }]}>
-            +{events.length - 3} more
+        {events.length > 2 && (
+          <Text style={[styles.moreEventsText, { 
+            color: colors.text || '#6B7280',
+            fontSize: Math.max(8, Dimensions.get('window').width / 50)
+          }]}>
+            +{events.length - 2} more
           </Text>
         )}
       </View>
@@ -296,53 +324,76 @@ const MonthView: React.FC<MonthViewProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   weekDayHeaders: {
     flexDirection: 'row',
+    backgroundColor: '#F8FAFC',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-    backgroundColor: '#f8f9fa',
+    borderBottomColor: '#E5E7EB',
   },
   weekDayHeader: {
-    flex: 1,
-    paddingVertical: 12,
+    width: (Dimensions.get('window').width - 32) / 7,
+    paddingVertical: 16,
     alignItems: 'center',
-    borderRightWidth: 1,
-    borderRightColor: '#E0E0E0',
+    borderRightWidth: 0.5,
+    borderRightColor: '#E5E7EB',
   },
   weekDayText: {
-    fontSize: 12,
+    fontSize: Math.max(11, Dimensions.get('window').width / 35),
     fontWeight: '600',
-    color: '#666',
+    color: '#6B7280',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   monthGrid: {
-    flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   weekRow: {
     flexDirection: 'row',
-    flex: 1,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#E5E7EB',
   },
   eventsContainer: {
+    marginTop: 6,
+    paddingHorizontal: 2,
     flex: 1,
-    marginTop: 4,
   },
   eventItem: {
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-    marginVertical: 1,
-    borderRadius: 2,
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 4,
+    marginBottom: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 1,
   },
   eventText: {
-    fontSize: 10,
-    color: '#fff',
+    fontSize: 9,
+    color: '#FFFFFF',
+    fontWeight: '500',
+    lineHeight: 11,
   },
   moreEventsText: {
-    fontSize: 10,
+    fontSize: 9,
     fontStyle: 'italic',
     marginTop: 2,
+    fontWeight: '500',
   },
 });
 
