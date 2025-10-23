@@ -85,7 +85,7 @@ const MonthDay: React.FC<MonthDayProps> = ({
 
   const dayStyles = useMemo(() => {
     const screenWidth = Dimensions.get('window').width;
-    const cellSize = (screenWidth - 32) / 7; // Calculate exact cell size for 7 columns
+    const cellSize = screenWidth / 7; // Use full screen width divided by 7 columns
     
     const baseStyle: ViewStyle = {
       backgroundColor: colors.background,
@@ -325,16 +325,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   weekDayHeaders: {
     flexDirection: 'row',
@@ -343,7 +333,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E5E7EB',
   },
   weekDayHeader: {
-    width: (Dimensions.get('window').width - 32) / 7,
+    width: Dimensions.get('window').width / 7,
     paddingVertical: 16,
     alignItems: 'center',
     borderRightWidth: 0.5,
