@@ -308,7 +308,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           }
         }}
         style={[styles.leftArea, { width: hourWidth }]}>
-        {showWeekNumber && <WeekNumber date={visibleDateUnixAnim} />}
+        {showWeekNumber && numberOfDays !== 30 && <WeekNumber date={visibleDateUnixAnim} />}
         {useAllDayEvent && (
           <ExpandButton
             isExpanded={isExpanded}
